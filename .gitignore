@@ -1,14 +1,17 @@
 # IntelliJ
 .idea/
+*.iml
 
 # Maven
 target/
-*/target/
 
 # Terraform
-terraform/.terraform/
+.terraform/
 *.tfstate
 *.tfstate.backup
+
+# LocalStack
+localstack-data/
 
 # Logs
 *.log
