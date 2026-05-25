@@ -10,19 +10,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.example.secureapp.service.DynamoDBService;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class FileController {
 
     private final S3Service s3Service;
+    private final DynamoDBService dynamoDBService;
 
-    public FileController(S3Service s3Service) {
+    public FileController(
+            S3Service s3Service,
+            DynamoDBService dynamoDBService
+    ) {
         this.s3Service = s3Service;
+        this.dynamoDBService = dynamoDBService;
     }
 
     @GetMapping("/")
@@ -53,5 +60,12 @@ public class FileController {
     public String admin() {
 
         return "Admin endpoint";
+    }
+
+    @GetMapping("/users")
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<Map<String, String>> users() {
+
+        return dynamoDBService.getUsers();
     }
 }
