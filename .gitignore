@@ -1,0 +1,18 @@
+# IntelliJ
+.idea/
+
+# Maven
+target/
+*/target/
+
+# Terraform
+terraform/.terraform/
+*.tfstate
+*.tfstate.backup
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

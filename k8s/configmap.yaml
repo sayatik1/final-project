@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: app-config
+
+data:
+  AWS_REGION: us-east-1
+  AWS_ENDPOINT: http://host.docker.internal:4566
+  BUCKET_NAME: documents-bucket

@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: secure-app
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: secure-app
+
+  template:
+    metadata:
+      labels:
+        app: secure-app
+
+    spec:
+      serviceAccountName: secure-app-sa
+      containers:
+        - name: secure-app
+
+          image: secure-app:latest
+
+          imagePullPolicy: Never
+
+          ports:
+            - containerPort: 8081
+
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secret
+                  key: accessKey
+
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secret
+                  key: secretKey
+
+            - name: AWS_REGION
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: AWS_REGION
+
+            - name: AWS_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: AWS_ENDPOINT
+
+            - name: BUCKET_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: BUCKET_NAME
